@@ -3,6 +3,8 @@ public class CosCumparaturi {
     public int pretCos;
     public int numarProduse;
 
+    public Produs produs;
+
     CosCumparaturi(String produse,int pretCos,int numarProduse){
         this.produse=produse;
         this.pretCos=pretCos;
