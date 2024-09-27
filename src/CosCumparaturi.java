@@ -1,22 +1,20 @@
 public class CosCumparaturi {
-    public String produse;
+    public Produs produs;
     public int pretCos;
     public int numarProduse;
 
-    public Produs produs;
-
-    CosCumparaturi(String produse,int pretCos,int numarProduse){
-        this.produse=produse;
+    CosCumparaturi(Produs produs,int pretCos,int numarProduse){
+        this.produs=produs;
         this.pretCos=pretCos;
         this.numarProduse=numarProduse;
     }
 
-    public String getProduse() {
-        return produse;
+    public Produs getProdus() {
+        return produs;
     }
 
-    public void setProduse(String produse) {
-        this.produse = produse;
+    public void setProdus(Produs produs) {
+        this.produs = produs;
     }
 
     public int getPretCos() {

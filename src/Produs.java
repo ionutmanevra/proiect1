@@ -44,4 +44,10 @@ public class Produs {
         this.categorie = categorie;
     }
 
+    public void arataProduse(){
+        System.out.println("Nume: "+ getNume());
+        System.out.println("Pret: "+ getPret());
+        System.out.println("Categorie: "+ getCategorie());
+        System.out.println("Descriere: "+getDescriere());
+    }
 }

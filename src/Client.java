@@ -1,18 +1,20 @@
 public class Client {
-    private int nume;
+    private String nume;
     private String email;
-    private int numarClienti;
+    private static int numarClienti=1;
 
-    Client (int nume,String email){
+    public CosCumparaturi cosCumparaturi;
+
+    Client (String nume,String email){
         this.nume=nume;
         this.email=email;
     }
 
-    public int getNume() {
+    public String getNume() {
         return nume;
     }
 
-    public void setNume(int nume) {
+    public void setNume(String nume) {
         this.nume = nume;
         numarClienti++;
     }
@@ -26,16 +28,17 @@ public class Client {
         this.email = email;
     }
 
-    public int getNumarClienti() {
+    public static int getNumarClienti() {
         return numarClienti;
     }
 
-    public void setNumarClienti(int numarClientil) {
-        this.numarClienti = numarClientil;
+    public static void setNumarClienti(int numarClienti) {
+        Client.numarClienti = numarClienti;
     }
 
     public void arataClienti(){
-            System.out.println("Nume "+getNume());
-            System.out.println( "Email "+getEmail());
+            System.out.println("Nume: "+getNume());
+            System.out.println( "Email: "+getEmail());
     }
+
 }
