@@ -2,18 +2,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String args[]){
-        Scanner scanner=new Scanner(System.in);
+    public static void main(String args[]) {
+        Scanner scanner = new Scanner(System.in);
 
-        ArrayList<Client> clienti=new ArrayList<>();
-        ArrayList<Produs> produse=new ArrayList<>();
+        ArrayList<Client> clienti = new ArrayList<>();
+        ArrayList<Produs> produse = new ArrayList<>();
+        ArrayList<CosCumparaturi> cos=new ArrayList<>();
 
-        produse.add(new Produs(50,"Parmezan","Branza mautarata, clasic italiana","Branzeturi"));
+        produse.add(new Produs(50, "Parmezan", "Branza mautarata, clasic italiana", "Branzeturi"));
         clienti.add(new Client("Ion Popescu", "ion.popescu@gmail.com"));
 
         int meniuPrincipal = -1;
 
-        while(meniuPrincipal != 0){
+        while (meniuPrincipal != 0) {
             System.out.println("Meniu principal:");
             System.out.println("1.Client");
             System.out.println("2.Administrator");
@@ -21,10 +22,20 @@ public class Main {
             System.out.print("Alege o opțiune: ");
             meniuPrincipal = scanner.nextInt();
 
-            switch (meniuPrincipal){
+            switch (meniuPrincipal) {
                 case 1: {
-                    int meniuClient=-1;
-                    while (meniuClient!=0) {
+
+                    System.out.println("Va rugam sa introduceti datele cerute!");
+                    System.out.println("Introduceti numele apoi mail-ul personal: ");
+                    String numeNou;
+                    String mailNou;
+                    scanner.nextLine();
+
+                    numeNou = scanner.nextLine();
+                    mailNou = scanner.nextLine();
+                    clienti.add(new Client(numeNou, mailNou));
+                    int meniuClient = -1;
+                    while (meniuClient != 0) {
                         System.out.println(
                                 "⠀⠈⠛⠻⠶⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n" +
                                         "⠀⠀⠀⠀⠀⠈⢻⣆⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⠀⠀\n" +
@@ -38,11 +49,9 @@ public class Main {
                                         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⢾⣷⢶⣶⠶⠶⠶⠶⠶⠶⠶⠶⠶⣶⠶⣶⡶⠀⠀⠀⠀⠀⠀⠀\n" +
                                         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣧⣠⡿⠀⠀⠀⠀⠀⠀    ⢷⣄⣼⠇⠀⠀");
 
-                        System.out.println("Va rugam sa introduceti datele cerute!");
-                        System.out.println("Introduceti numele apoi mail-ul personal: ");
 
 
-                        System.out.println("Meniu client:");
+                        System.out.println("\nMeniu client:");
                         System.out.println("1.Vizualizare produse");
                         System.out.println("2.Incepe cumparaturile");
                         System.out.println("0.Inapoi la meniul principal");
@@ -62,6 +71,61 @@ public class Main {
                                 }
                                 break;
                             case 2:
+                                System.out.println("Sesiune cumparaturi inceputa!\n");
+
+                                // Verifică dacă există produse disponibile
+                                if (produse.isEmpty()) {
+                                    System.out.println("Nu există produse disponibile.");
+                                    break;
+                                }
+
+                                // Afișează lista de produse disponibile
+                                for (int i = 0; i < produse.size(); ++i) {
+                                    System.out.println("Produsul: " + (i + 1));
+                                    produse.get(i).arataProduse();
+                                }
+
+                                boolean cumparaturiActive = true;
+
+                                // Listă pentru a stoca produsele adăugate în coșul curent
+                                ArrayList<CosCumparaturi> cosCurent = new ArrayList<>();
+
+                                while (cumparaturiActive) {
+                                    System.out.println("\nIntroduceti numarul produsului pe care doriti sa il adaugati in cos sau 0 pentru a finaliza cumpărăturile:");
+                                    int numarProdus = scanner.nextInt();
+
+                                    // Verifică dacă utilizatorul dorește să finalizeze cumpărăturile
+                                    if (numarProdus == 0) {
+                                        System.out.println("Cumpărături finalizate. Produsele adăugate în coș:");
+                                        for (CosCumparaturi cosProdus : cosCurent) {
+                                            System.out.println("Produs: " + cosProdus.getProdus().getNume() +
+                                                    ", Cantitate: " + cosProdus.getNumarProduse() +
+                                                    ", Pret total: " + cosProdus.getPretCos());
+                                        }
+                                        break;
+                                    }
+
+                                    // Verifică dacă numărul produsului este valid
+                                    if (numarProdus > 0 && numarProdus <= produse.size()) {
+                                        Produs produsAles = produse.get(numarProdus - 1);
+
+                                        System.out.println("Introduceti cantitatea dorita pentru produsul " + produsAles.getNume() + ":");
+                                        int cantitate = scanner.nextInt();
+
+                                        // Calculează prețul total pentru produsul selectat
+                                        int pretTotalProdus = produsAles.getPret() * cantitate;
+
+                                        // Creează și adaugă produsul în coșul curent
+                                        CosCumparaturi cosProdus = new CosCumparaturi(produsAles, pretTotalProdus, cantitate);
+                                        cosCurent.add(cosProdus);
+
+                                        System.out.println("Produsul " + produsAles.getNume() + " a fost adaugat in cos.");
+                                    } else {
+                                        System.out.println("Număr invalid. Vă rugăm să introduceți un număr valid.");
+                                    }
+                                }
+
+                                break;
 
                             case 0:
                                 System.out.println("Inapoi la meniul principal...");
@@ -75,24 +139,26 @@ public class Main {
                 }
                 case 2: {
                     int meniuAdmin = -1;
-                    int parolaAdmin=9876;
+                    int parolaAdmin = 9876;
                     int parolaCitita;
 
-                    System.out.println("Introduceti parola admin:");
-                    parolaCitita=scanner.nextInt();
+                    System.out.println("\nIntroduceti parola admin:");
+                    parolaCitita = scanner.nextInt();
 
-                    if(parolaCitita!=parolaAdmin){
+                    if (parolaCitita != parolaAdmin) {
                         System.out.println("Parola incorecta!");
                         break;
                     }
 
                     while (meniuAdmin != 0) {
-                        System.out.println("Meniu administrator:");
+                        System.out.println("\nMeniu administrator:");
                         System.out.println("1. Adauga produse noi");
                         System.out.println("2. Sterge produse existente");
+                        System.out.println("3. Vizualizare clienti");
                         System.out.println("0. Inapoi la meniul principal");
                         System.out.print("Alege o opțiune: ");
                         meniuAdmin = scanner.nextInt();
+                        scanner.nextLine();
 
                         switch (meniuAdmin) {
                             case 1:
@@ -101,6 +167,7 @@ public class Main {
 
                                 System.out.println("Introduceti pretul produsului: " + numeNouProdus);
                                 int pretProdusNou = scanner.nextInt();
+                                scanner.nextLine();
 
                                 System.out.println("Adaugati descrierea produsului: " + numeNouProdus);
                                 String descriereProdusNou = scanner.nextLine();
@@ -116,13 +183,18 @@ public class Main {
                                 for (int i = 0; i < produse.size(); ++i) {
                                     System.out.println((i + 1) + ". " + produse.get(i).getNume());
                                 }
-                                System.out.println("Introduceti numarul produsului de sters: ");
-                                int indexProdusSters = scanner.nextInt() - 1;
-                                if (indexProdusSters >= 0 && indexProdusSters < produse.size()) {
-                                    System.out.println("Produsul " + produse.get(indexProdusSters).getNume() + " a fost sters.");
-                                    produse.remove(indexProdusSters);
+
+                                break;
+                            case 3:
+                                System.out.println("Lista clientilor:");
+                                if (clienti.isEmpty()) {
+                                    System.out.println("Nu există clienți înregistrați.");
                                 } else {
-                                    System.out.println("Numar de produs invalid.");
+                                    for (int i = 0; i < clienti.size(); ++i) {
+                                        System.out.println("Client " + (i + 1) + ":");
+                                        clienti.get(i).arataClienti();
+                                        System.out.println();
+                                    }
                                 }
                                 break;
                             case 0:
@@ -133,14 +205,7 @@ public class Main {
                                 break;
                         }
                     }
-                    break;
                 }
-                case 0:
-                    System.out.println("La revedere!");
-                    break;
-                default:
-                    System.out.println("Optiune invalida.");
-                    break;
             }
         }
     }
