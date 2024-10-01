@@ -33,6 +33,12 @@ public class CosCumparaturi {
         this.numarProduse = numarProduse;
     }
 
+    public void arataCos(){
+        System.out.println(getProdus());
+        System.out.println("Numar produse: "+ getNumarProduse());
+        System.out.println("Pret: "+ getPretCos());
+    }
+
 }
 
 

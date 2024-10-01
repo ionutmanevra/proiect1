@@ -10,12 +10,17 @@ public class Main {
         ArrayList<CosCumparaturi> cos=new ArrayList<>();
 
         produse.add(new Produs(50, "Parmezan", "Branza mautarata, clasic italiana", "Branzeturi"));
+        produse.add(new Produs(100, "Laptop", "Laptop cu procesor i7, 16GB RAM, 512GB SSD", "Electronice"));
+
         clienti.add(new Client("Ion Popescu", "ion.popescu@gmail.com"));
+        Produs getParmezan;
+        CosCumparaturi cosImplicit = new CosCumparaturi(getParmezan=produse.get(0), getParmezan.getPret(), 1); // 1 laptop
+        clienti.get(0).cosCumparaturi.add(cosImplicit);
 
         int meniuPrincipal = -1;
 
         while (meniuPrincipal != 0) {
-            System.out.println("Meniu principal:");
+            System.out.println("\nMeniu principal:");
             System.out.println("1.Client");
             System.out.println("2.Administrator");
             System.out.println("0.Iesire");
@@ -73,29 +78,26 @@ public class Main {
                             case 2:
                                 System.out.println("Sesiune cumparaturi inceputa!\n");
 
-                                // Verifică dacă există produse disponibile
                                 if (produse.isEmpty()) {
                                     System.out.println("Nu există produse disponibile.");
                                     break;
                                 }
 
-                                // Afișează lista de produse disponibile
                                 for (int i = 0; i < produse.size(); ++i) {
-                                    System.out.println("Produsul: " + (i + 1));
+                                    System.out.println("Produsul: " + (i+1));
                                     produse.get(i).arataProduse();
                                 }
 
                                 boolean cumparaturiActive = true;
 
-                                // Listă pentru a stoca produsele adăugate în coșul curent
-                                ArrayList<CosCumparaturi> cosCurent = new ArrayList<>();
+                                ArrayList<CosCumparaturi> cosCurent=new ArrayList<>();
 
                                 while (cumparaturiActive) {
                                     System.out.println("\nIntroduceti numarul produsului pe care doriti sa il adaugati in cos sau 0 pentru a finaliza cumpărăturile:");
                                     int numarProdus = scanner.nextInt();
 
-                                    // Verifică dacă utilizatorul dorește să finalizeze cumpărăturile
-                                    if (numarProdus == 0) {
+                                    if (numarProdus==0) {
+                                        clienti.get(clienti.size()-1).cosCumparaturi = cosCurent;
                                         System.out.println("Cumpărături finalizate. Produsele adăugate în coș:");
                                         for (CosCumparaturi cosProdus : cosCurent) {
                                             System.out.println("Produs: " + cosProdus.getProdus().getNume() +
@@ -105,17 +107,14 @@ public class Main {
                                         break;
                                     }
 
-                                    // Verifică dacă numărul produsului este valid
                                     if (numarProdus > 0 && numarProdus <= produse.size()) {
                                         Produs produsAles = produse.get(numarProdus - 1);
 
                                         System.out.println("Introduceti cantitatea dorita pentru produsul " + produsAles.getNume() + ":");
                                         int cantitate = scanner.nextInt();
 
-                                        // Calculează prețul total pentru produsul selectat
                                         int pretTotalProdus = produsAles.getPret() * cantitate;
 
-                                        // Creează și adaugă produsul în coșul curent
                                         CosCumparaturi cosProdus = new CosCumparaturi(produsAles, pretTotalProdus, cantitate);
                                         cosCurent.add(cosProdus);
 
@@ -125,10 +124,6 @@ public class Main {
                                     }
                                 }
 
-                                break;
-
-                            case 0:
-                                System.out.println("Inapoi la meniul principal...");
                                 break;
                             default:
                                 System.out.println("Optiune invalida.");
@@ -155,13 +150,15 @@ public class Main {
                         System.out.println("1. Adauga produse noi");
                         System.out.println("2. Sterge produse existente");
                         System.out.println("3. Vizualizare clienti");
+                        System.out.println("4. Vizualizare produse");
+                        System.out.println("5. Viuzalizare cosuri atribuite clientiilor");
                         System.out.println("0. Inapoi la meniul principal");
                         System.out.print("Alege o opțiune: ");
                         meniuAdmin = scanner.nextInt();
                         scanner.nextLine();
 
                         switch (meniuAdmin) {
-                            case 1:
+                            case 1: {
                                 System.out.println("Introduceti numele produsului nou: ");
                                 String numeNouProdus = scanner.nextLine();
 
@@ -178,28 +175,74 @@ public class Main {
                                 produse.add(new Produs(pretProdusNou, numeNouProdus, descriereProdusNou, categorieProdusNou));
                                 System.out.println("Produs adaugat cu succes.");
                                 break;
-                            case 2:
+                            }
+                            case 2: {
                                 System.out.println("Lista produselor existente:");
                                 for (int i = 0; i < produse.size(); ++i) {
                                     System.out.println((i + 1) + ". " + produse.get(i).getNume());
                                 }
+                                int produsEliminat;
+                                System.out.println("Introduceti numarul produsului de eliminat:");
+                                produsEliminat = scanner.nextInt();
+                                if (produsEliminat > 0 && produsEliminat <= produse.size()) {
+                                    produse.remove(produsEliminat - 1);
+                                    System.out.println("Produs eliminat!");
+                                } else {
+                                    System.out.println("Numar produs gresit!");
+                                }
+
 
                                 break;
-                            case 3:
+                            }
+                            case 3: {
                                 System.out.println("Lista clientilor:");
                                 if (clienti.isEmpty()) {
                                     System.out.println("Nu există clienți înregistrați.");
                                 } else {
-                                    for (int i = 0; i < clienti.size(); ++i) {
-                                        System.out.println("Client " + (i + 1) + ":");
+                                    for (int i=0;i<clienti.size();++i) {
+                                        System.out.println("Client "+(i+1)+":");
                                         clienti.get(i).arataClienti();
                                         System.out.println();
                                     }
                                 }
                                 break;
-                            case 0:
-                                System.out.println("Inapoi la meniul principal...");
+                            }
+                            case 4:{
+                                if(produse.isEmpty()){
+                                    System.out.println("Lista este goala!!!");
+                                }
+                                else {
+                                    for (int i = 0; i<produse.size();++i) {
+                                        System.out.println("Produs "+(i+1)+":");
+                                        produse.get(i).arataProduse();
+                                        System.out.println();
+                                    }
+                                }
                                 break;
+                            }
+                            case 5:{
+                                for (int i=0; i<clienti.size();++i) {
+                                    System.out.println("Client "+(i+1)+":");
+                                    clienti.get(i).arataClienti();
+                                    System.out.println();
+                                    if (clienti.get(i).cosCumparaturi == null) {
+                                        System.out.println("Coșul este gol.");
+                                    } else {
+                                        System.out.println("Produse în coș:");
+                                        for (CosCumparaturi cosProdus:clienti.get(i).cosCumparaturi) {
+                                            System.out.println("Produs: "+cosProdus.getProdus().getNume() +
+                                                    ", Cantitate: "+cosProdus.getNumarProduse() +
+                                                    ", Pret total: "+cosProdus.getPretCos());
+                                        }
+                                    }
+                                    System.out.println();
+                                }
+                                break;
+                            }
+                            case 0: {
+                                System.out.println("Inapoi la meniul principal");
+                                break;
+                            }
                             default:
                                 System.out.println("Optiune invalida.");
                                 break;

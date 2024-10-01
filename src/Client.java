@@ -1,13 +1,16 @@
+import java.util.ArrayList;
+
 public class Client {
     private String nume;
     private String email;
     private static int numarClienti=1;
 
-    public CosCumparaturi cosCumparaturi;
+    public ArrayList<CosCumparaturi> cosCumparaturi;
 
-    Client (String nume,String email){
+    public Client(String nume, String email) {
         this.nume=nume;
         this.email=email;
+        this.cosCumparaturi=new ArrayList<>();
     }
 
     public String getNume() {
