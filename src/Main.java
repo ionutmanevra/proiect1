@@ -7,14 +7,13 @@ public class Main {
 
         ArrayList<Client> clienti = new ArrayList<>();
         ArrayList<Produs> produse = new ArrayList<>();
-        ArrayList<CosCumparaturi> cos=new ArrayList<>();
 
         produse.add(new Produs(50, "Parmezan", "Branza mautarata, clasic italiana", "Branzeturi"));
         produse.add(new Produs(100, "Laptop", "Laptop cu procesor i7, 16GB RAM, 512GB SSD", "Electronice"));
 
         clienti.add(new Client("Ion Popescu", "ion.popescu@gmail.com"));
         Produs getParmezan;
-        CosCumparaturi cosImplicit = new CosCumparaturi(getParmezan=produse.get(0), getParmezan.getPret(), 1); // 1 laptop
+        CosCumparaturi cosImplicit = new CosCumparaturi(getParmezan=produse.get(0), getParmezan.getPret(), 1);
         clienti.get(0).cosCumparaturi.add(cosImplicit);
 
         int meniuPrincipal = -1;
@@ -29,7 +28,6 @@ public class Main {
 
             switch (meniuPrincipal) {
                 case 1: {
-
                     System.out.println("Va rugam sa introduceti datele cerute!");
                     System.out.println("Introduceti numele apoi mail-ul personal: ");
                     String numeNou;
@@ -42,7 +40,7 @@ public class Main {
                     int meniuClient = -1;
                     while (meniuClient != 0) {
                         System.out.println(
-                                "⠀⠈⠛⠻⠶⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n" +
+                                        "⠀⠈⠛⠻⠶⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n" +
                                         "⠀⠀⠀⠀⠀⠈⢻⣆⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⠀⠀\n" +
                                         "⠀⠀⠀⠀⠀⠀⠀⢻⡏⠉⠉⠉⠉⢹⡏⠉⠉⠉⠉⣿⡏⠉⠉⠉⠉⣿⠉⠉⠉⠉⠉⣹⠇⠀⠀⠀\n" +
                                         "⠀⠀⠀⠀⠀⠀⠀⠈⣿⣀⣀⣀⣀⣸⡏⠉⠉⠉⠉⣿⣧⣀⣀⣀⣀⣿⣄⣀⣀⣀⣠⡿⠀⠀⠀⠀\n" +
@@ -70,12 +68,12 @@ public class Main {
                                     System.out.println("Nu exista produse inregistrate.");
                                 } else {
                                     for (int i = 0; i < produse.size(); ++i) {
-                                        System.out.println("Produsul: " + (i + 1));
+                                        System.out.println("\nProdusul: " + (i + 1));
                                         produse.get(i).arataProduse();
                                     }
                                 }
                                 break;
-                            case 2:
+                            case 2: {
                                 System.out.println("Sesiune cumparaturi inceputa!\n");
 
                                 if (produse.isEmpty()) {
@@ -84,20 +82,20 @@ public class Main {
                                 }
 
                                 for (int i = 0; i < produse.size(); ++i) {
-                                    System.out.println("Produsul: " + (i+1));
+                                    System.out.println("Produsul: " + (i + 1));
                                     produse.get(i).arataProduse();
                                 }
 
                                 boolean cumparaturiActive = true;
 
-                                ArrayList<CosCumparaturi> cosCurent=new ArrayList<>();
+                                ArrayList<CosCumparaturi> cosCurent = new ArrayList<>();
 
                                 while (cumparaturiActive) {
                                     System.out.println("\nIntroduceti numarul produsului pe care doriti sa il adaugati in cos sau 0 pentru a finaliza cumpărăturile:");
                                     int numarProdus = scanner.nextInt();
 
-                                    if (numarProdus==0) {
-                                        clienti.get(clienti.size()-1).cosCumparaturi = cosCurent;
+                                    if (numarProdus == 0) {
+                                        clienti.get(clienti.size() - 1).cosCumparaturi = cosCurent;
                                         System.out.println("Cumpărături finalizate. Produsele adăugate în coș:");
                                         for (CosCumparaturi cosProdus : cosCurent) {
                                             System.out.println("Produs: " + cosProdus.getProdus().getNume() +
@@ -125,6 +123,11 @@ public class Main {
                                 }
 
                                 break;
+                            }
+                            case 0:{
+                                System.out.println("Inapoi la meniu!");
+                                break;
+                            }
                             default:
                                 System.out.println("Optiune invalida.");
                                 break;
@@ -248,6 +251,14 @@ public class Main {
                                 break;
                         }
                     }
+                }
+                case 0: {
+                    System.out.println("La revedere!");
+                    break;
+                }
+                default: {
+                    System.out.println("Optiune invalida.");
+                    break;
                 }
             }
         }
